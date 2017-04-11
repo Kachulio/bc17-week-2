@@ -19,6 +19,7 @@ class Dojo:
 
     def add_room(self, args):
         room_type = args["<room_type>"]
+        print(room_type)
         if room_type.lower() == "livingspace":
             self.create_living_space(args)
         else:
@@ -32,9 +33,10 @@ class Dojo:
         print("Fellow {} {} has been successfully added.".format(args['<first_name>'], args["<last_name>"]))
 
     def create_office(self, args):
-        print("An office called {} has been successfully created!".format(args["<room_name>"]))
+        for i in args["<room_name>"]:
+             print("An office called {} has been successfully created!".format(args["<room_name>"]))
 
 
     def create_living_space(self, args):
-        living_space = LivingSpace("afd",)
-        pass
+        for i in args["<room_name>"]:
+            print("A LivingSpace called {} has been successfully created!".format(i))

@@ -1,32 +1,34 @@
-import sys
-import cmd
-from docopt import docopt, DocoptExit
-
-from intelliJo.class_dojo.dojo import Dojo
-
-
+#!/usr/bin/env python
 """
 This example uses docopt with the built in cmd module to demonstrate an
 interactive command application.
+
 Usage:
-    intellijo create_room <room_type> <room_name>...
-    intellijo (-i | --interactive)
-    intellijo (-h | --help)
+    my_program add_person <person_name> <fellow|staff> [wants_accommodation]
+    my_program create_room <room_type> <room_name>...
+    my_program tcp <host> <port> [--timeout=<seconds>]
+    my_program serial <port> [--baud=<n>] [--timeout=<seconds>]
+    my_program (-i | --interactive)
+    my_program (-h | --help | --version)
+
 Options:
-    -o, --output  Save to a txt file
     -i, --interactive  Interactive Mode
     -h, --help  Show this screen and exit.
+    --baud=<n>  Baudrate [default: 9600]
 """
 
+import sys
+import cmd
+from docopt import docopt, DocoptExit
+from class_dojo.dojo import Dojo
 
-
+dojo = Dojo()
 
 def docopt_cmd(func):
     """
     This decorator is used to simplify the try/except block and pass the result
     of the docopt parsing to the called action.
     """
-
     def fn(self, arg):
         try:
             opt = docopt(fn.__doc__, arg)
@@ -53,28 +55,43 @@ def docopt_cmd(func):
     return fn
 
 
-class MyInteractive(cmd.Cmd):
-    prompt = '(intellijo) '
+class MyInteractive (cmd.Cmd):
+    intro = 'Welcome to my interactive program!' \
+        + ' (type help for a list of commands.)'
+    prompt = '(my_program) '
     file = None
 
     @docopt_cmd
-    def do_create_room(self, args):
-        """Usage: create_room <room_type> <room_name>..."""
-
-        print('Room type: ' + args['<room_type>'])
-        print('Room name: ' + args['<room_name>'][0])
+    def do_add_person(self, arg):
+        """Usage: add_person <person_name> <FELLOW|STAFF> [wants_accommodation]"""
+        dojo.add_person(arg)
 
     @docopt_cmd
-    def do_add_person(self, args):
-        """Usage: add_person <first_name> <last_name>"""
+    def do_add_room(self, arg):
+        """create_room <room_type> <room_name>..."""
+        dojo.add_room(arg)
 
-        print("person created ", args['<first_name>'] + " " + args['<first_name>'])
+    @docopt_cmd
+    def do_tcp(self, arg):
+        """Usage: tcp <host> <port> [--timeout=<seconds>]"""
 
-    def do_quit(self, args):
+        print(arg)
+
+    @docopt_cmd
+    def do_serial(self, arg):
+        """Usage: serial <port> [--baud=<n>] [--timeout=<seconds>]
+
+Options:
+    --baud=<n>  Baudrate [default: 9600]
+        """
+
+        print(arg)
+
+    def do_quit(self, arg):
         """Quits out of Interactive Mode."""
+
         print('Good Bye!')
         exit()
-
 
 opt = docopt(__doc__, sys.argv[1:])
 

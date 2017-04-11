@@ -9,10 +9,19 @@ class TestPersonClass(unittest.TestCase):
     def SetUp(self):
         pass
 
-    def test_if_he_or_she_is_person(self):
+    def test_if_person(self):
         pass
 
     def test_if_staff(self):
+        pass
+
+    def test_if_fellow(self):
+        pass
+
+    def test_person_name_is_string(self):
+        pass
+
+    def test_fellow_if_he_or_she_went_to_bootcamp(self):
         pass
 
     def test_integrity(self):

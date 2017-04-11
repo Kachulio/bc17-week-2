@@ -2,3 +2,4 @@
 /dojo
 __pycache__
 *.pyc
+.cache

@@ -1,4 +1,4 @@
-from intelliJo.class_person.person import Person
+from class_person.person import Person
 
 
 class Staff(Person):

@@ -1,4 +1,4 @@
-from intelliJo.class_room.room import Room
+from class_room.room import Room
 
 
 class Office(Room):

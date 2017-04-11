@@ -1,1 +1,4 @@
 /.idea
+/dojo
+__pycache__
+*.pyc

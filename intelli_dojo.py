@@ -4,7 +4,7 @@ This example uses docopt with the built in cmd module to demonstrate an
 interactive command application.
 
 Usage:
-    IntelliJo add_person <person_name> <fellow|staff> [wants_accommodation]
+    IntelliJo add_person <person_name> <fellow|staff> [accommodation]
     IntelliJo create_room <room_type> <room_name>...
     IntelliJo tcp <host> <port> [--timeout=<seconds>]
     IntelliJo serial <port> [--baud=<n>] [--timeout=<seconds>]
@@ -63,7 +63,7 @@ class MyInteractive (cmd.Cmd):
 
     @docopt_cmd
     def do_add_person(self, arg):
-        """Usage: add_person <first_name> <last_name> <type> [wants_accommodation]"""
+        """Usage: add_person <first_name> <last_name> <type> [<accommodation>]"""
         dojo.add_person(arg)
 
     @docopt_cmd

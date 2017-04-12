@@ -56,14 +56,14 @@ def docopt_cmd(func):
 
 
 class MyInteractive (cmd.Cmd):
-    intro = 'Welcome to my interactive program!' \
+    intro = 'Welcome to my INTELLIGENT program!' \
         + ' (type help for a list of commands.)'
     prompt = '(IntelliJo) '
     file = None
 
     @docopt_cmd
     def do_add_person(self, arg):
-        """Usage: add_person <person_name> <FELLOW|STAFF> [wants_accommodation]"""
+        """Usage: add_person <first_name> <last_name> <type> [wants_accommodation]"""
         dojo.add_person(arg)
 
     @docopt_cmd

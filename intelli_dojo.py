@@ -20,7 +20,7 @@ Options:
 import sys
 import cmd
 from docopt import docopt, DocoptExit
-from class_dojo.dojo import Dojo
+from intelliJo.dojo.dojo import Dojo
 
 dojo = Dojo()
 

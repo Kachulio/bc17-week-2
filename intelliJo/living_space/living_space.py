@@ -1,4 +1,4 @@
-from class_room.room import Room
+from intelliJo.room.room import Room
 
 
 class LivingSpace(Room):

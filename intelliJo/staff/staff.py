@@ -1,7 +1,7 @@
-from class_person.person import Person
+from intelliJo.person.person import Person
 
 
-class Fellow(Person):
+class Staff(Person):
     def __init__(self, first_name, last_name):
         super().__init__(
             first_name,

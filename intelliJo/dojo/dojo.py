@@ -1,7 +1,7 @@
-from class_fellow.fellow import Fellow
-from class_staff.staff import Staff
-from class_living_space.living_space import LivingSpace
-from class_office.office import Office
+from intelliJo.fellow.fellow import Fellow
+from intelliJo.staff.staff import Staff
+from intelliJo.living_space.living_space import LivingSpace
+from intelliJo.office.office import Office
 
 
 class Dojo:
@@ -33,8 +33,13 @@ class Dojo:
         print("Fellow {} {} has been successfully added.".format(args['<first_name>'], args["<last_name>"]))
 
     def create_office(self, args):
+        # temp instance list
+        temp_instance = []
         for i in args["<room_name>"]:
-             print("An office called {} has been successfully created!".format(args["<room_name>"]))
+
+             temp_instance.append(Office(i))
+             print("An office called {} has been successfully created!".format(i))
+        print(Office.all_rooms)
 
 
     def create_living_space(self, args):

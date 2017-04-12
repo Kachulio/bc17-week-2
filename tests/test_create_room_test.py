@@ -1,7 +1,7 @@
 import unittest
 
-from class_dojo.dojo import Dojo
-from class_room.room import Room
+from intelliJo.dojo.dojo import Dojo
+from intelliJo.room.room import Room
 
 
 

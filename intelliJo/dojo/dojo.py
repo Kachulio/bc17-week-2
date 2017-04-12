@@ -7,21 +7,21 @@ from intelliJo.office.office import Office
 
 
 class Dojo(list):
-    # check instance type
-
-
-
-
+    # add_person method checks the docopt args <type> to see if the value is staff|fellow
+    # and calls the appropriate method depending on the type value
     def add_person(self, args):
         who = args["<type>"]
-        # if instance type is Staff
+        
         if who.lower() == "staff":
             # call the add_staff method
             self.add_staff(args)
 
         else:
+            # call the add_fellow method
             self.add_fellow(args)
 
+    # add_room method checks the docopt args <room_type> to see if the value is livingspace|office
+    # and calls the appropriate method depending on the room_type value
     def add_room(self, args):
         room_type = args["<room_type>"]
         if room_type.lower() == "livingspace":

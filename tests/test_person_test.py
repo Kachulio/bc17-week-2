@@ -3,10 +3,8 @@ import unittest
 from intelliJo.person.person import Person
 
 
-
 class TestPersonClass(unittest.TestCase):
     def SetUp(self):
-        person = Person()
         pass
 
     def test_if_person(self):
@@ -35,5 +33,3 @@ class TestPersonClass(unittest.TestCase):
 
     def test_collaboration(self):
         pass
-
-

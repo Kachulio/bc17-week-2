@@ -46,7 +46,7 @@ class Dojo(list):
         staff = Staff(args['<first_name>'], args["<last_name>"])
 
         # gives a feedback to the user if the staff was created.
-        print("Staff {} {} has been successfully added.".format(args['<first_name>'], args["<last_name>"]))
+        print("Staff {} {} has been successfully added.".format(staff.first_name, staff.last_name))
 
         # i use random package to get a random office, for now am just passing a list.
         give_me_an_office = random.choice(["blue", "black", "red", "yellow"])
@@ -60,7 +60,7 @@ class Dojo(list):
         fellow = Fellow(args['<first_name>'], args["<last_name>"])
 
         # gives a feedback to the user if the staff was created.
-        print("Fellow {} {} has been successfully added.".format(args['<first_name>'], args["<last_name>"]))
+        print("Fellow {} {} has been successfully added.".format(fellow.first_name, fellow.last_name))
 
         # checks if the fellow wants accommodation
         if args["<accommodation>"]:
@@ -80,17 +80,25 @@ class Dojo(list):
             temp_offices.append(Office(i))
             print("An office called {} has been successfully created!".format(i))
 
+    # this method creates a new livingspace.
     def create_living_space(self, args):
         living_spaces = []
         for i in args["<room_name>"]:
             living_spaces.append(LivingSpace((i)))
 
             print("A LivingSpace called {} has been successfully created!".format(i))
-
+            
+    # this method allocates a living space
     def allocate_a_living_space(self, room_name, person_type, want_living_space=False):
         print("{} has been allocated the office {}".format(person_type.first_name, room_name))
         if isinstance(person_type, Fellow) and want_living_space:
             print("{} has been allocated the livingspace {}".format(person_type.first_name, room_name))
+
+
+
+
+
+
 
     # just for unittests
     def create_room(self, room_name, room_type):

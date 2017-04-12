@@ -1,11 +1,16 @@
+import random
+
 from intelliJo.fellow.fellow import Fellow
 from intelliJo.staff.staff import Staff
 from intelliJo.living_space.living_space import LivingSpace
 from intelliJo.office.office import Office
 
 
-class Dojo:
+class Dojo(list):
     # check instance type
+
+
+
 
     def add_person(self, args):
         who = args["<type>"]
@@ -19,29 +24,51 @@ class Dojo:
 
     def add_room(self, args):
         room_type = args["<room_type>"]
-        print(room_type)
         if room_type.lower() == "livingspace":
             self.create_living_space(args)
         else:
             self.create_office(args)
 
     def add_staff(self, args):
-        print("Staff {} {} has been successfully added.".format(args['<first_name>'],args["<last_name>"]))
+        staff = Staff(args['<first_name>'], args["<last_name>"])
+        print("Staff {} {} has been successfully added.".format(args['<first_name>'], args["<last_name>"]))
+        give_me_an_office = random.choice(["blue", "black", "red", "yellow"])
+        print("{} has been allocated the office {}".format(staff.first_name, give_me_an_office))
+
+
 
 
     def add_fellow(self, args):
         print("Fellow {} {} has been successfully added.".format(args['<first_name>'], args["<last_name>"]))
+        fellow = Fellow(args['<first_name>'], args["<last_name>"])
+        if args["<accommodation>"]:
+            give_me_living_space = random.choice(["blue","black","red","yellow"])
+            self.allocate_a_living_space(give_me_living_space, fellow, True)
 
     def create_office(self, args):
-        # temp instance list
+
         temp_instance = []
         for i in args["<room_name>"]:
 
              temp_instance.append(Office(i))
              print("An office called {} has been successfully created!".format(i))
-        print(Office.all_rooms)
+
+
 
 
     def create_living_space(self, args):
+        living_spaces = []
         for i in args["<room_name>"]:
+            living_spaces.append(LivingSpace((i)))
+
             print("A LivingSpace called {} has been successfully created!".format(i))
+
+    def allocate_a_living_space(self,room_name, person_type, want_living_space=False):
+        print("{} has been allocated the office {}".format(person_type.first_name, room_name))
+        if isinstance(person_type,Fellow) and want_living_space:
+            print("{} has been allocated the livingspace {}".format(person_type.first_name, room_name))
+
+
+
+
+

@@ -24,11 +24,13 @@ from intelliJo.dojo.dojo import Dojo
 
 dojo = Dojo()
 
+
 def docopt_cmd(func):
     """
     This decorator is used to simplify the try/except block and pass the result
     of the docopt parsing to the called action.
     """
+
     def fn(self, arg):
         try:
             opt = docopt(fn.__doc__, arg)
@@ -37,7 +39,7 @@ def docopt_cmd(func):
             # The DocoptExit is thrown when the args do not match.
             # We print a message to the user and the usage block.
 
-            print('Invalid Command!')
+            print('Man Learn How To Type A Command!')
             print(e)
             return
 
@@ -55,9 +57,9 @@ def docopt_cmd(func):
     return fn
 
 
-class MyInteractive (cmd.Cmd):
+class MyInteractive(cmd.Cmd):
     intro = 'Welcome to my INTELLIGENT program!' \
-        + ' (type help for a list of commands.)'
+            + ' (type help for a list of commands.)'
     prompt = '(IntelliJo) '
     file = None
 
@@ -71,27 +73,12 @@ class MyInteractive (cmd.Cmd):
         """Usage: create_room <room_type> <room_name>..."""
         dojo.add_room(arg)
 
-    @docopt_cmd
-    def do_tcp(self, arg):
-        """Usage: tcp <host> <port> [--timeout=<seconds>]"""
-
-        print(arg)
-
-    @docopt_cmd
-    def do_serial(self, arg):
-        """Usage: serial <port> [--baud=<n>] [--timeout=<seconds>]
-
-Options:
-    --baud=<n>  Baudrate [default: 9600]
-        """
-
-        print(arg)
-
     def do_quit(self, arg):
         """Quits out of Interactive Mode."""
 
         print('Good Bye!')
         exit()
+
 
 opt = docopt(__doc__, sys.argv[1:])
 

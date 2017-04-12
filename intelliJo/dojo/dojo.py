@@ -35,26 +35,19 @@ class Dojo(list):
         give_me_an_office = random.choice(["blue", "black", "red", "yellow"])
         print("{} has been allocated the office {}".format(staff.first_name, give_me_an_office))
 
-
-
-
     def add_fellow(self, args):
         print("Fellow {} {} has been successfully added.".format(args['<first_name>'], args["<last_name>"]))
         fellow = Fellow(args['<first_name>'], args["<last_name>"])
         if args["<accommodation>"]:
-            give_me_living_space = random.choice(["blue","black","red","yellow"])
+            give_me_living_space = random.choice(["blue", "black", "red", "yellow"])
             self.allocate_a_living_space(give_me_living_space, fellow, True)
 
     def create_office(self, args):
 
         temp_instance = []
         for i in args["<room_name>"]:
-
-             temp_instance.append(Office(i))
-             print("An office called {} has been successfully created!".format(i))
-
-
-
+            temp_instance.append(Office(i))
+            print("An office called {} has been successfully created!".format(i))
 
     def create_living_space(self, args):
         living_spaces = []
@@ -63,12 +56,17 @@ class Dojo(list):
 
             print("A LivingSpace called {} has been successfully created!".format(i))
 
-    def allocate_a_living_space(self,room_name, person_type, want_living_space=False):
+    def allocate_a_living_space(self, room_name, person_type, want_living_space=False):
         print("{} has been allocated the office {}".format(person_type.first_name, room_name))
-        if isinstance(person_type,Fellow) and want_living_space:
+        if isinstance(person_type, Fellow) and want_living_space:
             print("{} has been allocated the livingspace {}".format(person_type.first_name, room_name))
 
+    # just for unittests
+    def create_room(self, room_name, room_type):
+        if room_type.lower() == "livingspace":
+            return LivingSpace(room_name)
 
-
-
-
+        elif room_type.lower() == "office":
+            return Office(room_name)
+        else:
+            print("TIA")

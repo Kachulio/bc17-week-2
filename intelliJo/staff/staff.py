@@ -7,3 +7,4 @@ class Staff(Person):
             first_name,
             last_name,
         )
+        self.which_office =''

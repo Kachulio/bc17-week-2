@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>#/Users/rey/Desktop/Cp1/bc17-week-2/intelliJo</OriginalElement>
+  <nodes>
+    <node x="446.0" y="575.0">intelliJo.amity.amity.Amity</node>
+    <node x="1.0" y="1007.0">intelliJo.office.office.Office</node>
+    <node x="961.0" y="707.0">intelliJo.person.person.Person</node>
+    <node x="695.25" y="1007.0">intelliJo.fellow.fellow.Fellow</node>
+    <node x="151.5" y="718.0">intelliJo.room.room.Room</node>
+    <node x="1180.25" y="1018.0">intelliJo.staff.staff.Staff</node>
+    <node x="271.0" y="1007.0">intelliJo.living_space.living_space.LivingSpace</node>
+    <node x="448.0" y="77.0">object</node>
+  </nodes>
+  <notes>
+    <note x="1056.0" y="651.0">
+      <node>intelliJo.person.person.Person</node>
+      <value>class person base class for Fellow and Staff</value>
+      <edge>
+        <point x="83.0" y="-59.0" />
+        <point x="0.0" y="13.5" />
+      </edge>
+    </note>
+    <note x="0.0" y="287.5">
+      <node>intelliJo.room.room.Room</node>
+      <value>Class Room a Base class for Office and living space</value>
+      <edge>
+        <point x="-62.5" y="-48.0" />
+        <point x="0.0" y="13.5" />
+      </edge>
+    </note>
+    <note x="431.5" y="0.0">
+      <node>object</node>
+      <value>Everything In python Inherits From the Object Or Extends Object</value>
+      <edge>
+        <point x="0.0" y="-224.0" />
+        <point x="0.0" y="13.5" />
+      </edge>
+    </note>
+  </notes>
+  <edges>
+    <edge source="intelliJo.person.person.Person" target="object">
+      <point x="-83.0" y="-59.0" />
+      <point x="1044.0" y="550.0" />
+      <point x="857.1666666666666" y="550.0" />
+      <point x="163.66666666666663" y="224.0" />
+    </edge>
+    <edge source="intelliJo.room.room.Room" target="object">
+      <point x="62.5" y="-48.0" />
+      <point x="339.0" y="550.0" />
+      <point x="529.8333333333334" y="550.0" />
+      <point x="-163.66666666666663" y="224.0" />
+    </edge>
+    <edge source="intelliJo.staff.staff.Staff" target="intelliJo.person.person.Person">
+      <point x="0.0" y="-37.0" />
+      <point x="1326.25" y="982.0" />
+      <point x="1210.0" y="982.0" />
+      <point x="83.0" y="59.0" />
+    </edge>
+    <edge source="intelliJo.amity.amity.Amity" target="object">
+      <point x="0.0" y="-191.0" />
+      <point x="0.0" y="224.0" />
+    </edge>
+    <edge source="intelliJo.living_space.living_space.LivingSpace" target="intelliJo.room.room.Room">
+      <point x="0.0" y="-48.0" />
+      <point x="427.0" y="982.0" />
+      <point x="339.0" y="982.0" />
+      <point x="62.5" y="48.0" />
+    </edge>
+    <edge source="intelliJo.fellow.fellow.Fellow" target="intelliJo.person.person.Person">
+      <point x="0.0" y="-48.0" />
+      <point x="927.75" y="982.0" />
+      <point x="1044.0" y="982.0" />
+      <point x="-83.0" y="59.0" />
+    </edge>
+    <edge source="intelliJo.office.office.Office" target="intelliJo.room.room.Room">
+      <point x="0.0" y="-48.0" />
+      <point x="126.0" y="982.0" />
+      <point x="214.0" y="982.0" />
+      <point x="-62.5" y="48.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="550.0" y="213.5" />
+  <SelectedNodes>
+    <node>intelliJo.amity.amity.Amity</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+</Diagram>
+

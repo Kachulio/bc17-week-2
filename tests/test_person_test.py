@@ -10,16 +10,16 @@ class TestPersonClass(unittest.TestCase):
     def test_if_person(self):
         pass
 
+    def test_person_name_is_string(self):
+        pass
+
     def test_if_staff(self):
         pass
 
     def test_if_fellow(self):
         pass
 
-    def test_person_name_is_string(self):
-        pass
-
-    def test_peer(self):
+    def test_if_programmer(self):
         pass
 
     def test_integrity(self):

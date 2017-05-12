@@ -6,5 +6,5 @@ class LivingSpace(Room):
         super().__init__(room_name)
         self.capacity = 4
 
-ls = LivingSpace("green")
-print(ls.room_name)
+    def __str__(self):
+        print(self.room_name)

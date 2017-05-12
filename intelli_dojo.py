@@ -6,6 +6,7 @@ interactive command application.
 Usage:
     IntelliJo add_person <person_name> <fellow|staff> [accommodation]
     IntelliJo create_room <room_type> <room_name>...
+    IntelliJo print_room <room_name>
     IntelliJo tcp <host> <port> [--timeout=<seconds>]
     IntelliJo serial <port> [--baud=<n>] [--timeout=<seconds>]
     IntelliJo (-i | --interactive)
@@ -20,9 +21,9 @@ Options:
 import sys
 import cmd
 from docopt import docopt, DocoptExit
-from intelliJo.dojo.dojo import Dojo
+from intelliJo.amity.amity import Amity
 
-dojo = Dojo()
+dojo = Amity()
 
 
 def docopt_cmd(func):

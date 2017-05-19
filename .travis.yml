@@ -5,6 +5,5 @@ install:
   - pip install coveralls
   - pip install pytest-cov
 
-script:
-  -py.test --py.test --cov-report=term --cov=tests
+script: nosetests --with-coverage
 after_success: coveralls

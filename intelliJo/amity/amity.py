@@ -1,39 +1,52 @@
 import random
 import time
-from intelliJo.fellow.fellow import Fellow
-from intelliJo.staff.staff import Staff
-from intelliJo.living_space.living_space import LivingSpace
-from intelliJo.office.office import Office
+from intelliJo.person.person import Fellow
+from intelliJo.person.person import Staff
+from intelliJo.room.room import LivingSpace
+from intelliJo.room.room import Office
 
 
 class Amity:
-    living_spaces = []
-    office_rooms = []
-    fellows = []
-    staff = []
+    free_living_space = []
+    filled_living_space = []
+
+    free_office = []
+    filled_office = []
+
+    office_rooms = [Office('black'), Office('Yellow'), Office("Brown"), Office("Pink")]
+    waiting_list = []
+    rooms_with_people = {}
     data = {}
 
-    # please do note that add_person and add_room are being called from intelli_dojo.py file
+    # please do note that add_person and create_room are being called from intelli_dojo.py file
 
     # add_person method checks the docopt args <type> to see if the value is staff|fellow
     # and calls the appropriate method depending on the type value
 
     def add_person(self, args):
-        # the "who variable will be assigned the value of fellow or staff"
-        who = args["<type>"]
+        toon_names = ["mickey mouse", "donald duck"]
+        firstname_lastname = args['<first_name>'] + " " + args['<last_name>']
 
+        if firstname_lastname in toon_names:
+            print("TIA, maybe you're looking for Walt Disney")
+            return "Invalid Name"
+
+
+        who = args["<type>"]
         # i just use who.lower() to make the string lowercase just to make my life easy
         if who.lower() == "staff":
             # if true call the add_staff method
-            self.add_staff(args)
-        # an else because i don't need to check if the "who" is a fellow
-        else:
-            # call the add_fellow method
-            self.add_fellow(args)
+            return self.add_staff(args)
 
-    # add_room method checks the docopt args <room_type> to see if the value is livingspace|office
+        elif who.lower() == "fellow":
+            # call the add_fellow method
+            return self.add_fellow(args)
+        else:
+            return "TIA You can only be staff or fellow"
+
+    # create_room method checks the docopt args <room_type> to see if the value is livingspace|office
     # and calls the appropriate method depending on the room_type value
-    def add_room(self, args):
+    def create_room(self, args):
         # gets the room_type  value
         room_type = args["<room_type>"]
 
@@ -43,8 +56,24 @@ class Amity:
             self.create_living_space(args)
 
         # else call the create_office method
-        else:
+        elif room_type.lower() == 'office':
             self.create_office(args)
+
+        else:
+            return "We currently don't have {} that type of room".format(room_type)
+
+    def print_room(self, name):
+        if name in self.rooms_with_people:
+
+            print("\t\t "+name)
+            print('------------------')
+            for occupants in self.rooms_with_people[name]:
+                print(occupants)
+            return 'those are all occupants'
+        else:
+            print('there is no room named ' + name)
+            return 'there is no room named ' + name
+
 
     # this method will be responsible for for creating staff user when completed
     def add_staff(self, args):
@@ -53,42 +82,45 @@ class Amity:
 
         # gives a feedback to the user if the staff was created.
         print("Staff {} {} has been successfully added.".format(staff.first_name, staff.last_name))
-        self.store_data(self.give_me_an_office(), "Office", staff)
+        self.store_data(self.get_random_office(), "Office", staff)
 
         # gives a feedback to the user if the office was created.
-        print("{} has been allocated the office {}".format(staff.first_name, self.give_me_an_office().room_name))
+        print("{} has been allocated the office {}".format(staff.first_name, self.get_random_office().room_name))
 
     # this method is responsible for creating a new fellow
     def add_fellow(self, args):
 
-        toon_names = ["mickey mouse", "donald duck"]
-        firstname_lastname = args['<first_name>'] + " " + args['<first_name>']
-        print(firstname_lastname)
-
-        if firstname_lastname in toon_names:
-            print("TIA, maybe you're looking for Walt Disney")
-            return
         # create an instance of class Fellow
-        fellow = Fellow(args['<first_name>'], args["<last_name>"], args["<accommodation>"])
-        office = self.give_me_an_office()
+        fellow = Fellow(args['<first_name>'], args["<last_name>"])
 
-        self.store_data(office.room_name, "Office", fellow)
+
+        self.store_data('black', "Office", fellow)
 
         if args["<accommodation>"] is None:
-
-            self.store_data(office.room_name, "Office", fellow)
             # gives a feedback to the user if the fellow was created.
+            office = self.get_random_office()
             print("Fellow {} {} has been successfully added.".format(fellow.first_name, fellow.last_name))
-            print("{} has been allocated the office {}".format(fellow.first_name, office.room_name))
+
+            if office is not None:
+                if len(office.people) < 6:
+                    office.people.append(fellow)
+                    print("{} has been allocated the office {}".format(fellow.first_name, office.room_name))
+                    self.rooms_with_people[office.room_name] = office.people
+                    return "success"
+                else:
+                    print("The {} office is full ".format(office.room_name))
+                    print("Chosing a random Office again..")
+
+
 
         # checks if the fellow wants accommodation
         elif args["<accommodation>"].lower() == "y":
             # if yes get a random room from the list
-
-            # and call the allocate_a_living_space method passing it a room and a fellow object
-            self.store_data(office.room_name, "Office", fellow)
-
-            self.allocate_a_living_space(self.give_me_a_living_space().room_name, fellow, True)
+            space = self.get_random_living_space()
+            if space is None:
+                self.waiting_list.append(fellow)
+            else:
+                self.allocate_living_space(self.get_random_living_space().name, fellow)
 
     # this method is responsible for creating a new offices.
     def create_office(self, args):
@@ -105,49 +137,57 @@ class Amity:
     # this method creates a new livingspace.
     def create_living_space(self, args):
         if isinstance(args, str):
-            Amity.living_spaces.append(LivingSpace(args))
+            Amity.free_living_space.append(LivingSpace(args))
         else:
             for i in args["<room_name>"]:
-                Amity.living_spaces.append(LivingSpace((i)))
+                Amity.free_living_space.append(LivingSpace((i)))
                 print("A LivingSpace called {} has been successfully created!".format(i))
 
     # this method allocates a living space
-    def allocate_a_living_space(self, room_name, fellow, want_living_space=False):
+    def allocate_living_space(self, fellow):
         # gives a feedback to the user if the fellow was created.
+        temp_living = self.get_random_living_space()
+        if temp_living is None:
+            return "No Living space"
+
+        else:
+            temp_living.people.append(fellow)
+            if temp_living.is_full():
+                self.free_living_space.remove(temp_living)
+
+
         print("Fellow {} {} has been successfully added.".format(fellow.first_name, fellow.last_name))
-        print("{} has been allocated the office {}".format(fellow.first_name, self.query_data(fellow)))
-        if isinstance(fellow, Fellow) and want_living_space:
-            print("{} has been allocated the LivingSpace {}".format(fellow.first_name, room_name))
+        print("{} has been allocated the office {} wow".format(fellow.first_name, self.query_office_data(fellow)))
+
+        print("{} has been allocated the LivingSpace {}".format(fellow.first_name)
+
+    def a
 
     # When i call this function it will first check if there is a living space, if there is a living space,
     # It will return a random living space, else
     # It will call the create_living_space to
-    def give_me_a_living_space(self):
+    def get_random_living_space(self):
 
         # Edge case for checking if there are rooms.
-        if len(Amity.living_spaces) == 0:
-            time.sleep(4)
-            print("Hey Amity, what's the big idea?")
-            print()
-            time.sleep(2)
-            print("OOPS this is embarrassing there is no Living Space")
-            print("just enter the name room you want: ")
-            print()
+        if len(Amity.free_living_space) == 0:
             time.sleep(3)
-            print("oh and since your are the first person you get to chose the top deck")
+            print("Hey Oscar, what's the big idea?")
             print()
             time.sleep(2)
-            name = input("Enter living space name: ")
-            self.create_living_space(name)
-            return Amity.living_spaces[0]
+            print("OOPS this is embarrassing, there is no Living Space")
+            time.sleep(1)
+
+            print("I have just added you to the waiting list.")
+
+            return None
         # Returns a random room
-        return random.choice(Amity.living_spaces)
+        return random.choice(Amity.free_living_space)
 
     # Returns a random Office
-    def give_me_an_office(self):
+    def get_random_office(self):
         if len(Amity.office_rooms) == 0:
             time.sleep(2)
-            print("What now ?")
+            print("We are currently working on some offices now")
             print()
             time.sleep(2)
             print("OOPS this is embarrassing there are no office rooms")
@@ -173,10 +213,16 @@ class Amity:
             Amity.data[room_name][room_type].append([person_type])
 
     # Gets Data from a Dictionary
-    def query_data(self, user):
+    def query_office_data(self, user):
         for key, value in self.data.items():
             for room, occupants in value.items():
                 if user in occupants and room == "Office":
                     return key
 
+
+    def query_living_space_data(self, user):
+        for key, value in self.data.items():
+            for room, occupants in value.items():
+                if user in occupants and room == "free_living_space":
+                    return key
 

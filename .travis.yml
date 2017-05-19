@@ -7,4 +7,4 @@ install:
 
 script:
   -py.test --py.test --cov-report=term --cov=tests
-after_success:coveralls
+after_success: coveralls

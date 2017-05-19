@@ -67,12 +67,17 @@ class MyInteractive(cmd.Cmd):
     @docopt_cmd
     def do_add_person(self, arg):
         """Usage: add_person <first_name> <last_name> <type> [<accommodation>]"""
-        dojo.add_person(arg)
+        print(dojo.add_person(arg))
 
     @docopt_cmd
     def do_create_room(self, arg):
         """Usage: create_room <room_type> <room_name>..."""
-        dojo.add_room(arg)
+        print(dojo.create_room(arg))
+
+    @docopt_cmd
+    def do_print_room(self, arg):
+        """Usage: print_room <room_name>"""
+        dojo.print_room(arg['<room_name>'])
 
     def do_quit(self, arg):
         """Quits out of Interactive Mode."""

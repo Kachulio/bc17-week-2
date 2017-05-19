@@ -31,6 +31,9 @@ class Amity:
             print("TIA, maybe you're looking for Walt Disney")
             return "Invalid Name"
 
+        elif not firstname_lastname.replace(' ', '').isalpha():
+            return 'Name cannot contain digits or funny characters.'
+
 
         who = args["<type>"]
         # i just use who.lower() to make the string lowercase just to make my life easy
@@ -159,9 +162,9 @@ class Amity:
         print("Fellow {} {} has been successfully added.".format(fellow.first_name, fellow.last_name))
         print("{} has been allocated the office {} wow".format(fellow.first_name, self.query_office_data(fellow)))
 
-        print("{} has been allocated the LivingSpace {}".format(fellow.first_name)
+       # print("{} has been allocated the LivingSpace {}".format(fellow.first_name)
 
-    def a
+
 
     # When i call this function it will first check if there is a living space, if there is a living space,
     # It will return a random living space, else

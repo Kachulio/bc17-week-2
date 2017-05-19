@@ -25,6 +25,12 @@ class TestPersonClass(unittest.TestCase):
                            '<type>': 'staff'
                            }
 
+        self.wrong_args3 = {'<accommodation>': None,
+                            '<first_name>': 'tomas1',
+                            '<last_name>': 'duse',
+                            '<type>': 'staff'
+                            }
+
     def test_add_person_works(self):
         status = self.pandc.add_person(self.args)
         self.assertEquals(status, 'success')
@@ -35,16 +41,10 @@ class TestPersonClass(unittest.TestCase):
 
     def test_add_person_rejects_invalid_names(self):
         error_message = self.pandc.add_person(self.wrong_args2)
+        error_message2 = self.pandc.add_person(self.wrong_args3)
+
         self.assertEqual(error_message, "Invalid Name", msg="Must be a valid name")
+        self.assertEqual('Name cannot contain digits or funny characters.', error_message2)
 
-    def test_integrity(self):
-        pass
 
-    def test_passion(self):
-        pass
 
-    def test_excellence(self):
-        pass
-
-    def test_collaboration(self):
-        pass

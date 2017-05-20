@@ -2,6 +2,7 @@ import unittest
 
 from intelliJo.amity.amity import Amity
 from intelliJo.person.person import Fellow, Staff
+from intelliJo.room.room import Office, LivingSpace
 
 
 
@@ -9,11 +10,9 @@ class TestCreateRoom(unittest.TestCase):
 
     def setUp(self):
         self.oscar = Amity()
-        self.office_count = len(Amity.office_rooms)
-        self.living_space_count = len(Amity.free_living_space)
-
+        self.living_space = LivingSpace("Braka")
+        self.office = Office('Orange')
         self.people = [
-            'John',
             'Awesome',
             'Oti',
             'Ben',
@@ -34,18 +33,26 @@ class TestCreateRoom(unittest.TestCase):
         self.assertTrue(self.oscar.free_living_space)
 
 
-    def test_max_capacity_for_office(self):
+    def test_office_does_not_exceed_max_capacity(self):
+        for i in self.people:
+            self.office.insert_user(i)
+        self.assertEqual("The office Orange is full", self.office.insert_user('judas'))
 
+    def test_living_space_does_not_exceed_max_capacity_(self):
+        for i in self.people:
+            self.living_space.insert_user(i)
 
-        pass
+        self.assertEqual(self.living_space.insert_user('doris'), 'The office Braka is full')
 
-    def test_max_capacity_for_living_space(self):
-
-        pass
 
     def test_print_room_returns_expected_message(self):
         val = self.oscar.print_room('b')
         self.assertEqual('there is no room named b',val )
+
+    def test_reallocate_person_success(self):
+        # success_message = self.oscar.reallocate_person(2, "blue")
+        # self.assertEqual('joseph has been allocated to blue living space', success_message)
+        pass
 
 
 if __name__ == '__main__':

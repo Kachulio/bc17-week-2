@@ -1,11 +1,14 @@
 import unittest
 
 from intelliJo.amity.amity import Amity
+from intelliJo.person.person import Person
+
 
 
 class TestPersonClass(unittest.TestCase):
     def setUp(self):
         self.pandc = Amity()
+        self.test_subject = Person('John', "Doe")
 
         self.args = {'<accommodation>': None,
                      '<first_name>': 'jose',
@@ -45,6 +48,11 @@ class TestPersonClass(unittest.TestCase):
 
         self.assertEqual(error_message, "Invalid Name", msg="Must be a valid name")
         self.assertEqual('Name cannot contain digits or funny characters.', error_message2)
+
+    def test_person_full_name_works(self):
+        self.assertEqual(self.test_subject.full_name, "John Doe")
+
+
 
 
 

@@ -77,6 +77,12 @@ class Amity:
             print('there is no room named ' + name)
             return 'there is no room named ' + name
 
+    def reallocate_person(self, p_id, new_room):
+        #query the database
+        db = [1,2,4,5,6,7,8,9,10]
+        if p_id in db:
+            if new_room in self.free_living_space:
+                p_id.living
 
     # this method will be responsible for for creating staff user when completed
     def add_staff(self, args):
@@ -105,10 +111,10 @@ class Amity:
             print("Fellow {} {} has been successfully added.".format(fellow.first_name, fellow.last_name))
 
             if office is not None:
-                if len(office.people) < 6:
-                    office.people.append(fellow)
+                if len(office._people) < 6:
+                    office._people.append(fellow)
                     print("{} has been allocated the office {}".format(fellow.first_name, office.room_name))
-                    self.rooms_with_people[office.room_name] = office.people
+                    self.rooms_with_people[office.room_name] = office._people
                     return "success"
                 else:
                     print("The {} office is full ".format(office.room_name))

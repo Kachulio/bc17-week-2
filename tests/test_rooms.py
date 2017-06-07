@@ -1,15 +1,17 @@
 import unittest
+import sys
+from intelliJo.amity.amity import Amity, animate_string
 
-from intelliJo.amity.amity import Amity
-from intelliJo.person.person import Fellow, Staff
 from intelliJo.room.room import Office, LivingSpace
 
+from io import StringIO
 
 
 class TestCreateRoom(unittest.TestCase):
-
     def setUp(self):
         self.oscar = Amity()
+
+
         self.living_space = LivingSpace("Braka")
         self.office = Office('Orange')
         self.people = [
@@ -22,16 +24,21 @@ class TestCreateRoom(unittest.TestCase):
 
         ]
 
+    def tearDown(self):
+        self.oscar.rooms['office'] = []
+        self.oscar.rooms['livingspace'] = []
+        self.oscar.employees['staff'] = []
+        self.oscar.employees['fellow'] = []
+        self.oscar.waiting_list_for_office = []
+        self.oscar.waiting_list_for_living_space = []
 
     def test_create_office_successfully(self):
-        self.oscar.create_office("Blue")
-        self.assertTrue(self.oscar.office_rooms)
-
+        self.oscar.create_room("Blue", 'office')
+        self.assertTrue(self.oscar.rooms['office'])
 
     def test_create_living_space_successfully(self):
-        self.oscar.create_living_space("Red")
-        self.assertTrue(self.oscar.free_living_space)
-
+        self.oscar.create_room("Red", 'livingspace')
+        self.assertTrue(self.oscar.rooms['livingspace'])
 
     def test_office_does_not_exceed_max_capacity(self):
         for i in self.people:
@@ -44,15 +51,32 @@ class TestCreateRoom(unittest.TestCase):
 
         self.assertEqual(self.living_space.insert_user('doris'), 'The office Braka is full')
 
-
     def test_print_room_returns_expected_message(self):
         val = self.oscar.print_room('b')
-        self.assertEqual('there is no room named b',val )
+        self.assertEqual('No room named: b', val)
 
-    def test_reallocate_person_success(self):
-        # success_message = self.oscar.reallocate_person(2, "blue")
-        # self.assertEqual('joseph has been allocated to blue living space', success_message)
-        pass
+    def test_reallocate_person_error_message(self):
+        # assert for person does not exist
+        print(self.oscar.waiting_list_for_office)
+        print(self.oscar.waiting_list_for_living_space)
+
+        self.assertEqual(self.oscar.reallocate_person(1, 'Braka'), "Person does not exist")
+
+    def test_print_allocations(self):
+        # it should return None if there are no rooms.
+        self.assertEqual(None, self.oscar.print_allocations(None))
+
+    def test_print_unallocated(self):
+        # assert unallocated method return the expected message if there is no staff or fellow in the unallocated
+        # my teardown is not working so i need to do this
+        self.oscar.waiting_list_for_living_space=[]
+        self.oscar.waiting_list_for_office=[]
+        self.assertEqual(self.oscar.print_unallocated(None),'No one is in the unallocated')
+
+        # assert unallocated method returns the expected message if the were people in the unallocated
+        self.oscar.add_person('Bie', 'Go', 'staff')
+
+        self.assertEqual(self.oscar.print_unallocated(None), 'printed all the unallocated people successfully')
 
 
 if __name__ == '__main__':

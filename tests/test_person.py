@@ -3,6 +3,7 @@ import unittest
 from intelliJo.amity.amity import Amity
 from intelliJo.person.person import Person
 
+import sys
 
 
 class TestPersonClass(unittest.TestCase):
@@ -10,49 +11,36 @@ class TestPersonClass(unittest.TestCase):
         self.pandc = Amity()
         self.test_subject = Person('John', "Doe")
 
-        self.args = {'<accommodation>': None,
-                     '<first_name>': 'jose',
-                     '<last_name>': 'ngugi',
-                     '<type>': 'fellow'
-                     }
-
-        self.wrong_args1 = {'<accommodation>': None,
-                     '<first_name>': 'jose',
-                     '<last_name>': 'ngugi',
-                     '<type>': 'admin'
-                     }
-
-        self.wrong_args2 = {'<accommodation>': None,
-                           '<first_name>': 'mickey',
-                           '<last_name>': 'mouse',
-                           '<type>': 'staff'
-                           }
-
-        self.wrong_args3 = {'<accommodation>': None,
-                            '<first_name>': 'tomas1',
-                            '<last_name>': 'duse',
-                            '<type>': 'staff'
-                            }
+    def tearDown(self):
+        self.pandc.rooms['office'] = []
+        self.pandc.rooms['livingspace'] = []
+        self.pandc.employees['staff'] = []
+        self.pandc.employees['fellow'] = []
+        self.pandc.waiting_list_for_office = []
+        self.pandc.waiting_list_for_living_space = []
 
     def test_add_person_works(self):
-        status = self.pandc.add_person(self.args)
-        self.assertEquals(status, 'success')
+        from io import StringIO
+        out = StringIO()
+        sys.stdout = out
+
+        self.pandc.add_person('joseph', 'ngugi', 'fellow')
+
+        output = out.getvalue().strip()[:47]
+
+        self.assertEquals("Fellow joseph ngugi has been successfully added", output)
 
     def test_add_person_only_adds_fellow_or_staff(self):
-        error_message = self.pandc.add_person(self.wrong_args1)
+        error_message = self.pandc.add_person('joseph', 'ngugi', 'dancer')
         self.assertEqual("TIA You can only be staff or fellow", error_message, msg="You can only be staff or fellow")
 
     def test_add_person_rejects_invalid_names(self):
-        error_message = self.pandc.add_person(self.wrong_args2)
-        error_message2 = self.pandc.add_person(self.wrong_args3)
+        error_message = self.pandc.add_person('mickey', 'mouse', 'staff')
+        error_message2 = self.pandc.add_person('fred1', 'r@ck', 'fellow')
 
         self.assertEqual(error_message, "Invalid Name", msg="Must be a valid name")
         self.assertEqual('Name cannot contain digits or funny characters.', error_message2)
 
     def test_person_full_name_works(self):
         self.assertEqual(self.test_subject.full_name, "John Doe")
-
-
-
-
 

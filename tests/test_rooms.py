@@ -78,6 +78,10 @@ class TestCreateRoom(unittest.TestCase):
 
         self.assertEqual(self.oscar.print_unallocated(None), 'printed all the unallocated people successfully')
 
+    def test_create_room_with_wrong_room_type(self):
+        self.assertEqual(self.oscar.create_room('Green','Nasa'),"We currently don't have Nasa that type of room")
+
+
 
 if __name__ == '__main__':
     unittest.main()

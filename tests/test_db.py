@@ -22,8 +22,8 @@ class TestDataBase(unittest.TestCase):
         self.assertIn('DOMINIC WALTERS', all_people_names)
 
     def test_save_state_and_load_state(self):
-        self.amity.save_state()
-        self.amity.load_state()
+        self.amity.save_state('data')
+        self.amity.load_state('data')
 
         self.assertTrue(
             [person for person in self.amity.waiting_list_for_office if person.full_name == 'james windows'])

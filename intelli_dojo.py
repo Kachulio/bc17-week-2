@@ -7,11 +7,12 @@ Usage:
     IntelliJo add_person <person_name> <fellow|staff> [accommodation]
     IntelliJo create_room <room_type> <room_name>...
     IntelliJo print_room <room_name>
-    IntelliJo print_unallocated [-o=filename]
-    IntelliJo print_allocations [-o=filename]
+    IntelliJo print_unallocated [filename]
+    IntelliJo print_allocations [filename]
     IntelliJo load_people [file_name]
     IntelliJo save_state [--db=sqlite_database]
-    IntelliJo load_state <sqlite_database> 
+    IntelliJo load_state <sqlite_database>
+    IntelliJo print_all_people
     IntelliJo tcp <host> <port> [--timeout=<seconds>]
     IntelliJo serial <port> [--baud=<n>] [--timeout=<seconds>]
     IntelliJo (-i | --interactive)
@@ -80,7 +81,8 @@ class MyInteractive(cmd.Cmd):
         print()
         firstname, lastname, person_type, accommodation = arg['<first_name>'], arg['<last_name>'], arg['<type>'], arg[
             '<accommodation>']
-        dojo.add_person(firstname, lastname, person_type, accommodation)
+        print(dojo.add_person(firstname, lastname, person_type, accommodation))
+
 
     @docopt_cmd
     def do_create_room(self, arg):
@@ -88,7 +90,7 @@ class MyInteractive(cmd.Cmd):
         print()
         room_names, room_type, = arg['<room_name>'], arg['<room_type>']
         for name in room_names:
-            dojo.create_room(name, room_type)
+            print(dojo.create_room(name, room_type))
 
     @docopt_cmd
     def do_print_room(self, arg):
@@ -104,15 +106,15 @@ class MyInteractive(cmd.Cmd):
 
     @docopt_cmd
     def do_print_unallocated(self, arg):
-        """Usage: print_unallocated [file_name]"""
+        """Usage: print_unallocated [<file_name>]"""
         print()
-        dojo.print_unallocated(arg['file_name'])
+        dojo.print_unallocated(arg['<file_name>'])
 
     @docopt_cmd
     def do_print_allocations(self, arg):
-        """Usage: print_allocations [file_name]"""
-        print()
-        dojo.print_allocations(arg['file_name'])
+        """Usage: print_allocations [<file_name>]"""
+
+        print(dojo.print_allocations(arg['<file_name>']))
 
     @docopt_cmd
     def do_load_people(self, arg):
@@ -123,12 +125,21 @@ class MyInteractive(cmd.Cmd):
     @docopt_cmd
     def do_save_state(self, arg):
         """Usage: save_state [--db=sqlite_database]"""
-        dojo.save_state()
+        dojo.save_state(arg['--db'])
 
     @docopt_cmd
     def do_load_state(self, arg):
         """Usage: load_state <sqlite_database>"""
-        dojo.load_state()
+        dojo.load_state(arg["<sqlite_database>"])
+
+
+    def do_print_all_people(self,arg):
+
+        print(dojo.print_all_people())
+
+    def do_print_all_rooms(self,arg):
+
+        print(dojo.print_all_rooms())
 
     def do_quit(self, arg):
         """Quits out of Interactive Mode."""

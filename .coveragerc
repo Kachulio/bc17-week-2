@@ -6,7 +6,6 @@ omit =
     */sqlite3/*
     *decimal.py*
     *numbers.py*
-    *intelliJo/amity.py*
     *intelliJo.py*
     *__init__.py*
 

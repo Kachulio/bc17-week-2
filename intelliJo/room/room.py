@@ -26,8 +26,6 @@ class LivingSpace(Room):
     def is_full(self):
         return self.max_capacity == self.people
 
-    def __str__(self):
-        return "Living Space: " + self.room_name
 
 class Office(Room):
     def __init__(self, room_name):
@@ -38,5 +36,4 @@ class Office(Room):
     def is_full(self):
         return self.max_capacity == self.people
 
-    def __str__(self):
-        return "Office: " + (self.room_name)
+

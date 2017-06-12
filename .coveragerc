@@ -1,7 +1,7 @@
 [report]
 omit =
     */python?.?/*
-    */site-packages/nose/*
+    */site-packages/*
     */tests/*
     */sqlite3/*
     *decimal.py*

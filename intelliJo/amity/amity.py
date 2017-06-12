@@ -44,7 +44,7 @@ class Amity:
             staff = Staff(firstname, lastname)
             self.employees['staff'].append(staff)
             # gives feedback to the user that the staff has been created
-            animate_string("Staff {} {} has been successfully added.".format(staff.first_name, staff.last_name),
+            animate_string("Staff {} {} has been successfully added.\n".format(staff.first_name, staff.last_name),
                            'green', t=0.01)
             # calls the allocate room method and passes the staff object as parameter
             # allocate_room method is defined in line 92
@@ -54,7 +54,8 @@ class Amity:
         elif person_type.lower() == "fellow":
             fellow = Fellow(firstname, lastname)
             self.employees['fellow'].append(fellow)
-            print(colored("Fellow {} {} has been successfully added.",'green').format(fellow.first_name, fellow.last_name))
+            print(colored("Fellow {} {} has been successfully added.\n", 'green').format(fellow.first_name,
+                                                                                         fellow.last_name))
 
             self.allocate_room(fellow, accommodation)
             return ''
@@ -94,28 +95,28 @@ class Amity:
 
     # this method is responsible for  allocating rooms for fellows and staff
     def allocate_room(self, person, accommodation=''):
-        # check empty rooms
+        # check for empty rooms
         vacant_office = [office for office in self.rooms['office'] if not office.is_full()]
         if not vacant_office:
-            animate_string("Oscar: ops this is embarrassing there are no offices right now", t=0.00)
-            animate_string('Oscar: But Construction for offices are currently going on', t=0.00)
-            animate_string("Oscar: So this won't take long sorry :-(", t=0.00)
+            animate_string("Oscar: ops this is embarrassing there are no offices right now", clr='red', t=0.01)
+            animate_string('Oscar: But Construction for offices are currently going on', clr='yellow', t=0.01)
+            animate_string("Oscar: So this won't take long sorry :-(", clr='yellow', t=0.01)
             self.waiting_list_for_office.append(person)
-            animate_string("Oscar: I have just added you to the waiting list.", t=0.00)
+            animate_string("Oscar: I have just added you to the waiting list.\n", clr='white', t=0.01)
 
         else:
             office = random.choice(vacant_office)
             office.insert_user(person)
-            animate_string("{} has been allocated to Office: {}".format(person.first_name, office.room_name), 'white',
+            animate_string("{} has been allocated to Office: {}".format(person.first_name, office.room_name), 'blue',
                            t=0.00)
 
         if isinstance(person, Fellow) and accommodation in ("y", "yes", "Y" or "YES"):
             vacant_living_space = [living_space for living_space in self.rooms['livingspace'] if
                                    not living_space.is_full()]
             if not vacant_living_space:
-                print('there is no living space')
+                print(colored('there is no living space', 'red'))
                 self.waiting_list_for_living_space.append(person)
-                print("Oscar: I have just added you to the waiting list.")
+                print("Oscar: I have just added you to the waiting list.\n")
                 return None
             space = random.choice(vacant_living_space)
             space.insert_user(person)
@@ -168,7 +169,9 @@ class Amity:
 
         # checks if the person is a staff and wants to be allocated to a living space
         if person.person_type == "Staff" and room.room_type == "LivingSpace":
-            return 'Staff cannot be allocated to a living space wacha ukora'
+            os.system('say wacha izo')
+            os.system("say Staff cannot be allocated to a living space. wacha oookora \n")
+            return ''
 
         # checks if the person is in the same room
         if person in room.people:
@@ -191,13 +194,17 @@ class Amity:
         # remove the person in the current room and reallocate  person to the new room
         if room.room_type == 'LivingSpace':
             prev_room = [prev for prev in self.rooms['livingspace'] if person in prev.people]
-            prev_room[0].people.remove(person)
+            if prev_room:
+                prev_room[0].people.remove(person)
             room.insert_user(person)
+            return colored('the fellow has been reallocated successfully \n', 'green')
 
         else:
             prev_room = [prev for prev in self.rooms['office'] if person in prev.people]
-            prev_room[0].people.remove(person)
+            if prev_room:
+                prev_room[0].people.remove(person)
             room.insert_user(person)
+            return colored('the {} has been reallocated successfully \n'.format(person.person_type), 'green')
 
     def load_people(self, args):
         f = open('people.txt', 'r')
@@ -303,7 +310,7 @@ class Amity:
 
     def print_all_people(self):
         table = BeautifulTable()
-        table.column_headers = ['ID', 'PERSON', 'ROOM']
+        table.column_headers = ['ID', 'Type', 'PERSON', 'ROOM']
         if self.employees['staff'] + self.employees['fellow']:
             for person in self.employees['staff'] + self.employees['fellow']:
                 current_room = ''
@@ -312,7 +319,7 @@ class Amity:
                 if current_rooms:
                     for name in current_rooms:
                         current_room += name + ', '
-                table.append_row([person.pk, person.full_name, current_room])
+                table.append_row([person.pk, person.person_type, person.full_name, current_room])
             return table
         else:
             return colored('there are no people', 'red')
@@ -363,11 +370,14 @@ def animate_string(string, clr='magenta', t=0.10):
 def people_in_waiting_list(self, roomtype):
     if roomtype == "office":
         current_list = self.waiting_list_for_office
-        print("-----------------People Waiting For offices To Be Constructed----------------\n\n")
+        print(animate_string(
+            "-" * 15 + "=" * 10 + "-" * 10 + "=" * 5 + " People Waiting For offices To Be Constructed " + "=" * 10 + "-" * 15 + "=" * 5 + "-" * 14 + "=" * 10,
+            clr='cyan', t=0.03) + "\n")
     else:
         current_list = self.waiting_list_for_living_space
-        print("\n==============People Waiting For living space To Be Constructed==============\n")
-
+        print(animate_string(
+            "-" * 15 + "=" * 10 + "-" * 10 + "=" * 5 + " People Waiting For Living Space To Be Constructed " + "=" * 10 + "-" * 15 + "=" * 5 + "-" * 10 + "=" * 10,
+            clr='cyan', t=0.03) + "\n")
     count = 0
     for person in current_list:
         global data
@@ -375,22 +385,24 @@ def people_in_waiting_list(self, roomtype):
         count += 1
         if count == 3:
             print('\n')
-            sys.stdout.write('')
-            sys.stdout.write('\t-{}: {}'.format(person.person_type, person.full_name))
+            sys.stdout.write('\t')
+            sys.stdout.write(colored('\t-{}: {}'.format(person.person_type, person.full_name),'yellow'))
 
             sys.stdout.flush()
-            time.sleep(0.2)
+            time.sleep(0.3)
             continue
 
         if count == 5:
             print('\n')
-            sys.stdout.write('')
-            sys.stdout.write('\t-{}: {}'.format(person.person_type, person.full_name))
+            sys.stdout.write('\t')
+            sys.stdout.write(colored('\t-{}: {}'.format(person.person_type, person.full_name), 'yellow'))
             sys.stdout.flush()
-            time.sleep(0.2)
+            time.sleep(0.3)
             continue
 
         sys.stdout.write('\t')
-        sys.stdout.write('\t-{}: {}'.format(person.person_type, person.full_name))
+
+        sys.stdout.write(colored('\t-{}: {}'.format(person.person_type, person.full_name), 'yellow'))
         sys.stdout.flush()
-        time.sleep(0.2)
+        time.sleep(0.3)
+    print('\n')

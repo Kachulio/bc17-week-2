@@ -1,0 +1,11 @@
+[report]
+omit =
+    */python?.?/*
+    */site-packages/*
+    */tests/*
+    */sqlite3/*
+    *decimal.py*
+    *numbers.py*
+    *intelliJo.py*
+    *__init__.py*
+

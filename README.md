@@ -7,25 +7,27 @@
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
+```
+$ https://github.com/Kachulio1/bc17-week-2.git
+
+```
 
 ### Prerequisites
 
 What things you need to install the software and how to install them
 
 ```
-pip install -r requirements.txt
+$ cat requirements.txt
 
 ```
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
+After cloning the repo , cd to the folder, activate your virtual enviroment and run this command
 
 ```
-Give the example
+pip install -r requirements.txt
 ```
 
 And repeat
@@ -38,33 +40,18 @@ End with an example of getting some data out of the system or using it for a lit
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
 ```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
+$ nosetests --with-coverage
 ```
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+work in progress 
 
 ## Built With
 
 * [Python](http://python.org) - Python
-* [Maven](https://maven.apache.org/) - 
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+
 
 ## Contributing
 

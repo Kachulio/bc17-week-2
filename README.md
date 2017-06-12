@@ -2,7 +2,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/Kachulio1/bc17-week-2/badge.svg?branch=dev)](https://coveralls.io/github/Kachulio1/bc17-week-2?branch=dev)
 # Project Title
 
-#####THE TALKING AMITY
+
+##### THE TALKING AMITY
 
 ## Getting Started
 
